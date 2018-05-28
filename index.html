@@ -105,12 +105,13 @@
 						$('#content').html(temp);
 					});*/
 					// hard coded html image content for Zann Starfire
-					$('#content').html('<img src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Zac_0.jpg" alt="Zac the Secret Weapon" class="champion img-raised rounded-circle img-fluid" /><img src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Nocturne_0.jpg" alt="Nocturne the Eternal Nightmare" class="champion img-raised rounded-circle img-fluid" /><img src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Soraka_0.jpg" alt="Soraka the Starchild" class="champion img-raised rounded-circle img-fluid" /><img src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Amumu_0.jpg" alt="Amumu the Sad Mummy" class="champion img-raised rounded-circle img-fluid" /><img src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Vi_0.jpg" alt="Vi the Piltover Enforcer" class="champion img-raised rounded-circle img-fluid" />');
+//					$('#content').html('<img src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Zac_0.jpg" alt="Zac the Secret Weapon" class="champion img-raised rounded-circle img-fluid" /><img src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Nocturne_0.jpg" alt="Nocturne the Eternal Nightmare" class="champion img-raised rounded-circle img-fluid" /><img src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Soraka_0.jpg" alt="Soraka the Starchild" class="champion img-raised rounded-circle img-fluid" /><img src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Amumu_0.jpg" alt="Amumu the Sad Mummy" class="champion img-raised rounded-circle img-fluid" /><img src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Vi_0.jpg" alt="Vi the Piltover Enforcer" class="champion img-raised rounded-circle img-fluid" />');
 				});
 
 				$(".champion").click(function()
 				{
-					console.log("you clicked a champion!")
+					$("topChamps").submit();
+                    console.log("you clicked a champion!")
 //					var championName = document.getElementById
 				});
 			});
@@ -139,11 +140,23 @@
 			</form>
 		</div>
 		<div id="content">
-<!--			<img src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Zac_0.jpg" alt="Zac the Secret Weapon" class="champion img-raised rounded-circle img-fluid" />
-			<img src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Nocturne_0.jpg" alt="Nocturne the Eternal Nightmare" class="champion img-raised rounded-circle img-fluid" />
-			<img src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Soraka_0.jpg" alt="Soraka the Starchild" class="champion img-raised rounded-circle img-fluid" />
-			<img src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Amumu_0.jpg" alt="Amumu the Sad Mummy" class="champion img-raised rounded-circle img-fluid" />
-			<img src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Vi_0.jpg" alt="Vi the Piltover Enforcer" class="champion img-raised rounded-circle img-fluid" />-->
-		</div>
+			<form id="topChamps" action="champInfo.html" method="GET">
+                <button type="submit" name="champion" value="Zac">
+                    <input id="champion" type="image" src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Zac_0.jpg" alt="Zac the Secret Weapon" class="champion img-raised rounded-circle img-fluid"/>
+                </button>
+                <button type="submit" name="champion" value="Nocturne">
+                    <input id="champion" type="image" src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Nocturne_0.jpg" alt="Nocturne the Eternal Nightmare" class="champion img-raised rounded-circle img-fluid"/>
+                </button>
+                <button type="submit" name="champion" value="Soraka">
+                    <input id="champion" type="image" src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Soraka_0.jpg" alt="Soraka the Starchild" class="champion img-raised rounded-circle img-fluid"/>
+                </button>
+                <button type="submit" name="champion" value="Amumu">
+                    <input id="champion" type="image" src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Amumu_0.jpg" alt="Amumu the Sad Mummy" class="champion img-raised rounded-circle img-fluid"/>
+                </button>
+                <button type="submit" name="champion" value="Vi">
+                    <input id="champion" type="image" src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Vi_0.jpg" alt="Vi the Piltover Enforcer" class="champion img-raised rounded-circle img-fluid"/>
+                </button>
+            </form>
+        </div>
 	</body>
 </html>
