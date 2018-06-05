@@ -2,161 +2,123 @@
 <html>
 	<head>
 		<style>
-			#topnav {
-				background-color: #FFFFFF;
-				overflow: hidden;
-				border: none;
-				border-radius: 3px;
-				position: relative;
-				padding: 12px 30px;
-				margin: 5px 1px;
-				font-size: 12px;
-				font-weight: 400;
-				text-transform: uppercase;
-				letter-spacing: 0;
-				will-change: box-shadow, transform;
-				transition: box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-			}
-
-			#topnav a {
-				float: left;
-				color: black;
-				text-align: center;
-				padding: 14px 16px;
-				text-decoration: none;
-				font-size: 17px;
-			}
-
-			#topnav a:hover {
-				background-color: #DC143C;
-				color: white;
-				box-shadow: 0 14px 26px -12px rgba(153, 153, 153, 0.42), 0 4px 23px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(153, 153, 153, 0.2);
-			}
-
-			#topnav a.active {
-				background-color: #4CAF50;
-				color: black;
-			}
-
-			#formID {
+			#input {
 				width: 565px;
 				padding: 10px;
 
 				/* Center form on page horizontally & vertically*/
 				margin:0 auto;
 			}
-
-			#text:focus{
-				outline:none;
-				border-color:red;
-				box-shadow:0 0 10px crimson;
-			}
-
-			#text {
-				//overflow: hidden;
-				width: 500px;
-				height: 30px;
-				//margin-top: 11px;
-				padding: 20px;
-				border: 1px solid crimson;
-			}
-
-			#submit {
-				width: 65px;
-//				background-color: #DC143C;
-//				float: right;
-				border: 1px solid crimson;
-				padding: 10px;
-			}
-
-			h2 {
-				padding-left: 10px;
-			}
-
-			body {
-				text-align: center;
-			}
 		</style>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 		<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 		<script>
 			$(document).ready(function()
 			{
+				// if user clicks submit function
 				$("#submit").click(function()
 				{
+					window.$_GET = location.search.substr(1).split("&").reduce((o,i)=>(u=decodeURIComponent,[k,v]=i.split("="),o[u(k)]=v&&u(v),o),{});
 					var summonerName = document.getElementById("text");
-					console.log(summonerName.value);
+					console.log("summonerName.value = " + summonerName.value);
 
-//					$('#content').html('<img src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Aatrox_0.jpg" alt="Aatrox_0" class="img-raised rounded-circle img-fluid" />' + '<img src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Aatrox_0.jpg" alt="Aatrox_0" class="img-raised rounded-circle img-fluid" />');
-
-/*					var temp = "";
-					$.getJSON("http://localhost:8080/topFiveChampions/" + summonerName.value,
-					function(data)
+					var url = "";
+					// if no url prameter exists and user pushed submit button
+					if ($_GET['summonerName'] == undefined)
 					{
-						console.log(data);
-						console.log(data["champions"].length);
-
-						for (i = 0; i < 5; i++)
+						console.log("no url prameter exists and user pushed submit button");
+						url = document.location.href + "?summonerName=" + encodeURIComponent(summonerName.value);
+						console.log("url = " + url);
+						window.history.pushState(null, null, url);
+					}
+					// if url parameter exists and person pushed submit button
+					else if ($_GET['summonerName'] != undefined && urlCall == false) {
+						console.log("url parameter exists and person pushed submit button");
+						url = document.location.href.split("?")[0]  + "?summonerName=" + encodeURIComponent(summonerName.value);
+						console.log("url = " + url);
+						window.history.pushState(null, null, url);
+					}
+					// if url parameter exists and page was reloaded
+					else
+					{
+						console.log("url parameter exists and page was reloaded");
+						$("#text").val($_GET['summonerName'].replace("%20", " "));
+					}
+	
+					if (summonerName.value == "")
+						alert("Enter your Summoner Name!");
+					else {
+						var temp = "";
+						$.getJSON("http://localhost:8080/topFiveChampions/" + summonerName.value,
+						function(data)
 						{
-							console.log("i = " + i)
-							temp = temp + '<img src="' + data["champions"][i]["splashArtUrl"] + '" alt="' + data["champions"][i]["name"] + ' ' + data["champions"][i]["title"] + '" class="img-raised rounded-circle img-fluid" />'
-						}
-						console.log(temp);
-						
-						$('#content').html(temp);
-					});*/
-					// hard coded html image content for Zann Starfire
-//					$('#content').html('<img src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Zac_0.jpg" alt="Zac the Secret Weapon" class="champion img-raised rounded-circle img-fluid" /><img src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Nocturne_0.jpg" alt="Nocturne the Eternal Nightmare" class="champion img-raised rounded-circle img-fluid" /><img src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Soraka_0.jpg" alt="Soraka the Starchild" class="champion img-raised rounded-circle img-fluid" /><img src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Amumu_0.jpg" alt="Amumu the Sad Mummy" class="champion img-raised rounded-circle img-fluid" /><img src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Vi_0.jpg" alt="Vi the Piltover Enforcer" class="champion img-raised rounded-circle img-fluid" />');
+							console.log(data);
+							console.log(data["champions"].length);
+
+							temp = temp + '<form id="topChamps" action="champInfo.html" method="GET"><input type="hidden" name="summonerName" value="' + summonerName.value + '">';
+							for (i = 0; i < 5; i++)
+							{
+								console.log("i = " + i)
+								temp = temp + '<button type="submit" name="champion" value="' + data["champions"][i]["name"] + '"><img src="' + data["champions"][i]["splashArtUrl"] + '" alt="' + data["champions"][i]["name"] + ', ' + data["champions"][i]["title"] + '" class="champion img-raised rounded-circle img-fluid"/></button>';
+							}
+							temp = temp + '</form>';
+							console.log(temp);
+
+							$('#content').html(temp);
+							// hard coded html image content for Zann Starfire
+//							$('#content').html('<form id="topChamps" action="champInfo.html" method="GET"><input type="hidden" name="summonerName" value="undefined"><button type="submit" name="champion" value="Wukong"><img src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/MonkeyKing_0.jpg" alt="Wukong, the Monkey King" class="champion img-raised rounded-circle img-fluid"/></button><button type="submit" name="champion" value="Cho'Gath"><img src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Chogath_0.jpg" alt="Cho'Gath, the Terror of the Void" class="champion img-raised rounded-circle img-fluid"/></button><button type="submit" name="champion" value="Veigar"><img src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Veigar_0.jpg" alt="Veigar, the Tiny Master of Evil" class="champion img-raised rounded-circle img-fluid"/></button><button type="submit" name="champion" value="Brand"><img src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Brand_0.jpg" alt="Brand, the Burning Vengeance" class="champion img-raised rounded-circle img-fluid"/></button><button type="submit" name="champion" value="Pantheon"><img src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Pantheon_0.jpg" alt="Pantheon, the Artisan of War" class="champion img-raised rounded-circle img-fluid"/></button></form>');
+						});
+					}
 				});
 
-				$(".champion").click(function()
+				window.$_GET = location.search.substr(1).split("&").reduce((o,i)=>(u=decodeURIComponent,[k,v]=i.split("="),o[u(k)]=v&&u(v),o),{});
+				var urlCall = false
+
+				// if dom loads and the summonerName var is in the url, fire off the submit to load data
+				if ($_GET['summonerName'] != undefined)
 				{
-					$("topChamps").submit();
-                    console.log("you clicked a champion!")
-//					var championName = document.getElementById
-				});
+					console.log("dom loaded and sumonerName exists");
+					urlCall = true;
+					$("#submit").trigger("click");
+				}
+				else
+					console.log("summonerName doesn't exist!");
 			});
 		</script>
 		<title>My Own Worst Enemy</title>
-
-		<link rel="stylesheet" href="bootstrap.min.css">
-		<link rel="stylesheet" href="material-kit.css">
-		<!--<link rel="stylesheet" href="demo.css">-->
-
 	</head>
 	<body>
-		<div id="topnav" class="navbar">
-			<a href="index.html">Home</a>
-		</div>
+		<nav class="navbar navbar-dark bg-primary">
+			<a class="navbar-brand" href="index.html">Home</a>
+		</nav>
 
-		<h2>My Own Worst Enemy</h2>
-		<div>
-			<form id="formID" class="form-horizontal" action="index.html" method="POST">
-				<div class="input-group col-xs-4">
-					<input id="text" type="text" class="form-control">
-					<span class="input-group-btn">
-						<button id="submit" class="btn btn-default" type="button">Submit</button>
-					</span>
-				</div>
-			</form>
+		<h1 align="center">My Own Worst Enemy</h1>
+		<div id="input" class="input-group mb-3">
+			<input id="text" type="text" class="form-control" name="summonerName" placeholder="Summoner Name">
+			<div class="input-group-append">
+				<button id="submit" class="btn btn-secondary">Submit</button>
+			</div>
 		</div>
 		<div id="content">
+<!--
 			<form id="topChamps" action="champInfo.html" method="GET">
-                <button type="submit" name="champion" value="Zac">
-                    <input id="champion" type="image" src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Zac_0.jpg" alt="Zac the Secret Weapon" class="champion img-raised rounded-circle img-fluid"/>
-                </button>
-                <button type="submit" name="champion" value="Nocturne">
-                    <input id="champion" type="image" src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Nocturne_0.jpg" alt="Nocturne the Eternal Nightmare" class="champion img-raised rounded-circle img-fluid"/>
-                </button>
-                <button type="submit" name="champion" value="Soraka">
-                    <input id="champion" type="image" src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Soraka_0.jpg" alt="Soraka the Starchild" class="champion img-raised rounded-circle img-fluid"/>
-                </button>
-                <button type="submit" name="champion" value="Amumu">
-                    <input id="champion" type="image" src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Amumu_0.jpg" alt="Amumu the Sad Mummy" class="champion img-raised rounded-circle img-fluid"/>
-                </button>
-                <button type="submit" name="champion" value="Vi">
-                    <input id="champion" type="image" src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Vi_0.jpg" alt="Vi the Piltover Enforcer" class="champion img-raised rounded-circle img-fluid"/>
-                </button>
-            </form>
-        </div>
+				<button type="submit" name="champion" value="Zac">
+					<img id="champion" type="image" src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Zac_0.jpg" alt="Zac the Secret Weapon"/>
+				</button>
+				<button type="submit" name="champion" value="Nocturne">
+					<img id="champion" type="image" src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Nocturne_0.jpg" alt="Nocturne the Eternal Nightmare"/>
+				</button>
+				<button type="submit" name="champion" value="Soraka">
+					<img id="champion" type="image" src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Soraka_0.jpg" alt="Soraka the Starchild"/>
+				</button>
+				<button type="submit" name="champion" value="Amumu">
+					<img id="champion" type="image" src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Amumu_0.jpg" alt="Amumu the Sad Mummy"/>
+				</button>
+				<button type="submit" name="champion" value="Vi">
+					<img id="champion" type="image" src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Vi_0.jpg" alt="Vi the Piltover Enforcer"/>
+				</button>
+			</form>
+-->
+		</div>
 	</body>
 </html>
