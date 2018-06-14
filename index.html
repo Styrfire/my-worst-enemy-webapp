@@ -49,6 +49,7 @@
 						alert("Enter your Summoner Name!");
 					else {
 						var temp = "";
+//						$.getJSON("http://my-worst-enemy.centralus.cloudapp.azure.com:8080/my-worst-enemy-1.0.0/topFiveChampions/" + summonerName.value,
 						$.getJSON("http://localhost:8080/topFiveChampions/" + summonerName.value,
 						function(data)
 						{
