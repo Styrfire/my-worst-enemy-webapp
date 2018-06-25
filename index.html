@@ -60,14 +60,12 @@
 							for (i = 0; i < 5; i++)
 							{
 								console.log("i = " + i)
-								temp = temp + '<button type="submit" name="champion" value="' + data["champions"][i]["name"] + '"><img src="' + data["champions"][i]["splashArtUrl"] + '" alt="' + data["champions"][i]["name"] + ', ' + data["champions"][i]["title"] + '" class="champion img-raised rounded-circle img-fluid"/></button>';
+								temp = temp + '<button type="submit" name="championId" value="' + data["champions"][i]["id"] + '"><img src="' + data["champions"][i]["splashArtUrl"] + '" alt="' + data["champions"][i]["name"] + ', ' + data["champions"][i]["title"] + '" class="champion img-raised rounded-circle img-fluid"/></button>';
 							}
 							temp = temp + '</form>';
 							console.log(temp);
 
 							$('#content').html(temp);
-							// hard coded html image content for Zann Starfire
-//							$('#content').html('<form id="topChamps" action="champInfo.html" method="GET"><input type="hidden" name="summonerName" value="undefined"><button type="submit" name="champion" value="Wukong"><img src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/MonkeyKing_0.jpg" alt="Wukong, the Monkey King" class="champion img-raised rounded-circle img-fluid"/></button><button type="submit" name="champion" value="Cho'Gath"><img src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Chogath_0.jpg" alt="Cho'Gath, the Terror of the Void" class="champion img-raised rounded-circle img-fluid"/></button><button type="submit" name="champion" value="Veigar"><img src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Veigar_0.jpg" alt="Veigar, the Tiny Master of Evil" class="champion img-raised rounded-circle img-fluid"/></button><button type="submit" name="champion" value="Brand"><img src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Brand_0.jpg" alt="Brand, the Burning Vengeance" class="champion img-raised rounded-circle img-fluid"/></button><button type="submit" name="champion" value="Pantheon"><img src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Pantheon_0.jpg" alt="Pantheon, the Artisan of War" class="champion img-raised rounded-circle img-fluid"/></button></form>');
 						});
 					}
 				});

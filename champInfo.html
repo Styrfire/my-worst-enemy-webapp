@@ -9,37 +9,28 @@
 			$(document).ready(function()
 			{
 				window.$_GET = location.search.substr(1).split("&").reduce((o,i)=>(u=decodeURIComponent,[k,v]=i.split("="),o[u(k)]=v&&u(v),o),{});
-//				alert($_GET['champion'])
 
-				var championName = $_GET['champion'];
-				console.log(championName);
+				var summonerName = $_GET['summonerName']
+				console.log("summonerName = " + summonerName)
+				var championId = $_GET['championId'];
+				console.log("championId = " + championId);
 
 				var temp = "";
 //				$.getJSON("http://my-worst-enemy.centralus.cloudapp.azure.com:8080/my-worst-enemy-1.0.0/selectedChampion/" + championName,
-				$.getJSON("http://localhost:8080/selectedChampion/" + championName,
+				$.getJSON("http://localhost:8080/selectedChampion/" + summonerName + "/" + championId,
 				function(data)
 				{
 					console.log(data);
 //					console.log(data["champions"].length);
 
-					temp = temp + '<h1>You chose the champion ' + data["championId"] + '!</h1>'
-/*					for (i = 0; i < 5; i++)
-					{
-						temp = temp + '<button type="submit" name="champion" value="' + data["champions"][i]["name"] + '"><img src="' + data["champions"][i]["splashArtUrl"] + '" alt="' + data["champions"][i]["name"] + ', ' + data["champions"][i]["title"] + '" class="champion img-raised rounded-circle img-fluid"/></button>'
-					}
-					temp = temp + '</form>'*/
+//					temp = temp + '<h1>You chose the champion ' + data["championId"] + '!</h1>'
 					console.log(temp);
 
-					$('#content').html(temp);
-
+//					$('#content').html(temp);
 				})
 				.fail(function() {
 					console.log( "error" );
 				})
-
-				// hard coded html image content for Zann Starfire
-//				$('#content').html('{"champions":[{"name":"Zac","title":"the Secret Weapon","splashArtUrl":"http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Zac_0.jpg","id":154,"numOfGames":27},{"name":"Trundle","title":"the Troll King","splashArtUrl":"http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Trundle_0.jpg","id":48,"numOfGames":4},{"name":"Amumu","title":"the Sad Mummy","splashArtUrl":"http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Amumu_0.jpg","id":32,"numOfGames":2},{"name":"Soraka","title":"the Starchild","splashArtUrl":"http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Soraka_0.jpg","id":16,"numOfGames":2},{"name":"Sejuani","title":"Fury of the North","splashArtUrl":"http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Sejuani_0.jpg","id":113,"numOfGames":2}]}');
-
 			});
 		</script>
 		<title>My Own Worst Enemy</title>
@@ -50,7 +41,90 @@
 		</nav>
 
 		<h1 align="center">My Own Worst Enemy</h1>
-		<div id="content">
+		<div id="content" class="container-fluid">
+			<div class="row">
+				<div class="col-sm-3 well">
+					<h1>Selected Champion: Zac</h1>
+					<h1>Games Played: 56</h1>
+					<img id="champion" class="img-responsive" style="width:100%" type="image" src="http://ddragon.leagueoflegends.com/cdn/img/champion/loading/Zac_0.jpg" alt="Zac the Secret Weapon"/>
+				</div>
+				<div></div>
+				<div class="col-sm-8 well">
+					<div class="row">
+						<div class="col-sm-12">
+							<h1>Enemy Champion Stats</h1>
+						</div>
+						<div class="col-sm-3 well">
+							<h2>Vayne</h2>
+							<div class="well">
+								<img id="champion" style="display:block;margin-left:auto;margin-right:auto;width:80%" type="image" src="http://ddragon.leagueoflegends.com/cdn/6.24.1/img/champion/Yasuo.png" alt="Vayne the Night Hunter"/>
+							</div>
+							<div class="well">Banned: 54 out of 56</div>
+							<div class="well">Losses: 1 out of 1 games</div>
+						</div>
+						<div class="col-sm-3 well">
+							<h2>Vayne</h2>
+							<div class="well">
+								<img id="champion" style="display:block;margin-left:auto;margin-right:auto;width:80%" type="image" src="http://ddragon.leagueoflegends.com/cdn/6.24.1/img/champion/Vayne.png" alt="Vayne the Night Hunter"/>
+							</div>
+							<div class="well">Banned: 22 out of 56</div>
+							<div class="well">Losses: 8 out of 9 games</div>
+						</div>
+						<div class="col-sm-3 well">
+							<h2>Vayne</h2>
+							<div class="well">
+								<img id="champion" style="display:block;margin-left:auto;margin-right:auto;width:80%" type="image" src="http://ddragon.leagueoflegends.com/cdn/6.24.1/img/champion/Malphite.png" alt="Vayne the Night Hunter"/>
+							</div>
+							<div class="well">Banned: 2 out of 56</div>
+							<div class="well">Losses: 8 out of 17 games</div>
+						</div>
+						<div class="col-sm-3 well">
+							<h2>Vayne</h2>
+							<div class="well">
+								<img id="champion" style="display:block;margin-left:auto;margin-right:auto;width:80%" type="image" src="http://ddragon.leagueoflegends.com/cdn/6.24.1/img/champion/Urgot.png" alt="Vayne the Night Hunter"/>
+							</div>
+							<div class="well">Banned: 0 out of 56</div>
+							<div class="well">Losses: 8 out of 14 games</div>
+						</div>
+					</div>
+					<div class="row">
+<!--
+						<div class="col-sm-3 well">
+							<h2>Vayne</h2>
+							<div class="well">
+								<img id="champion" style="display:block;margin-left:auto;margin-right:auto;width:80%" type="image" src="http://ddragon.leagueoflegends.com/cdn/6.24.1/img/champion/Vayne.png" alt="Vayne the Night Hunter"/>
+							</div>
+							<div class="well">Banned: 22 out of 56</div>
+							<div class="well">Losses: 8 out of 9 games</div>
+						</div>
+						<div class="col-sm-3 well">
+							<h2>Vayne</h2>
+							<div class="well">
+								<img id="champion" style="display:block;margin-left:auto;margin-right:auto;width:80%" type="image" src="http://ddragon.leagueoflegends.com/cdn/6.24.1/img/champion/Vayne.png" alt="Vayne the Night Hunter"/>
+							</div>
+							<div class="well">Banned: 22 out of 56</div>
+							<div class="well">Losses: 8 out of 9 games</div>
+						</div>
+						<div class="col-sm-3 well">
+							<h2>Vayne</h2>
+							<div class="well">
+								<img id="champion" style="display:block;margin-left:auto;margin-right:auto;width:80%" type="image" src="http://ddragon.leagueoflegends.com/cdn/6.24.1/img/champion/Vayne.png" alt="Vayne the Night Hunter"/>
+							</div>
+							<div class="well">Banned: 22 out of 56</div>
+							<div class="well">Losses: 8 out of 9 games</div>
+						</div>
+						<div class="col-sm-3 well">
+							<h2>Vayne</h2>
+							<div class="well">
+								<img id="champion" style="display:block;margin-left:auto;margin-right:auto;width:80%" type="image" src="http://ddragon.leagueoflegends.com/cdn/6.24.1/img/champion/Vayne.png" alt="Vayne the Night Hunter"/>
+							</div>
+							<div class="well">Banned: 22 out of 56</div>
+							<div class="well">Losses: 8 out of 9 games</div>
+						</div>
+-->
+					</div>
+				</div>
+			</div>
 		</div>
 	</body>
 </html>
