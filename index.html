@@ -54,10 +54,10 @@
 						function(data)
 						{
 							console.log(data);
-							console.log(data["champions"].length);
+							console.log("Number of Champions = " + data["champions"].length);
 
 							temp = temp + '<form id="topChamps" action="champInfo.html" method="GET"><input type="hidden" name="summonerName" value="' + summonerName.value + '">';
-							for (i = 0; i < 5; i++)
+							for (i = 0; i < data["champions"].length; i++)
 							{
 								console.log("i = " + i)
 								temp = temp + '<button type="submit" name="championId" value="' + data["champions"][i]["id"] + '"><img src="' + data["champions"][i]["splashArtUrl"] + '" alt="' + data["champions"][i]["name"] + ', ' + data["champions"][i]["title"] + '" class="champion img-raised rounded-circle img-fluid"/></button>';
