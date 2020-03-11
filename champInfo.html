@@ -10,7 +10,7 @@
 			{
 				window.$_GET = location.search.substr(1).split("&").reduce((o,i)=>(u=decodeURIComponent,[k,v]=i.split("="),o[u(k)]=v&&u(v),o),{});
 
-				var summonerName = $_GET['summonerName'];
+				var summonerName = decodeURIComponent($_GET['summonerName']);
 				console.log("summonerName = " + summonerName);
 				var championId = $_GET['championId'];
 				console.log("championId = " + championId);
