@@ -27,14 +27,14 @@
 					if ($_GET['summonerName'] == undefined)
 					{
 						console.log("no url prameter exists and user pushed submit button");
-						url = document.location.href + "?summonerName=" + encodeURIComponent(summonerName.value);
+						url = document.location.href + "?summonerName=" + summonerName.value;
 						console.log("url = " + url);
 						window.history.pushState(null, null, url);
 					}
 					// if url parameter exists and person pushed submit button
 					else if ($_GET['summonerName'] != undefined && urlCall == false) {
 						console.log("url parameter exists and person pushed submit button");
-						url = document.location.href.split("?")[0]  + "?summonerName=" + encodeURIComponent(summonerName.value);
+						url = document.location.href.split("?")[0]  + "?summonerName=" + summonerName.value;
 						console.log("url = " + url);
 						window.history.pushState(null, null, url);
 					}
@@ -56,7 +56,7 @@
 							console.log(data);
 							console.log("Number of Champions = " + data["champions"].length);
 
-							temp = temp + '<form id="topChamps" action="champInfo.html" method="GET"><input type="hidden" name="summonerName" value="' + summonerName.value + '">';
+							temp = temp + '<form id="topChamps" action="champInfo.html" method="GET"><input type="hidden" name="summonerName" value="' + encodeURIComponent(summonerName.value) + '">';
 							for (i = 0; i < data["champions"].length; i++)
 							{
 								console.log("i = " + i)
