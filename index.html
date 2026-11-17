@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<meta charset="UTF-8">
 		<style>
 			#input {
-				width: 565px;
+				width: 600px;
 				padding: 10px;
 
 				/* Center form on page horizontally & vertically*/
@@ -13,74 +14,85 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 		<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 		<script>
-			$(document).ready(function()
+			document.addEventListener("DOMContentLoaded", function()
 			{
 				// if user clicks submit function
-				$("#submit").click(function()
+				document.getElementById('submit').addEventListener('click', () =>
 				{
-					window.$_GET = location.search.substr(1).split("&").reduce((o,i)=>(u=decodeURIComponent,[k,v]=i.split("="),o[u(k)]=v&&u(v),o),{});
-					var summonerName = document.getElementById("text");
-					console.log("summonerName.value = " + summonerName.value);
+					handleSubmission(document.getElementById("text").value);
+				});
 
-					var url = "";
-					// if no url parameter exists and user pushed submit button
-					if ($_GET['summonerName'] == undefined)
+				// if user hits enter while in the text field
+				document.getElementById('text').addEventListener('keydown', (event) =>
+				{
+					if (event.key === 'Enter')
 					{
-						console.log("no url parameter exists and user pushed submit button");
-						encodedHistoryUrl = document.location.href.split("?")[0]  + "?summonerName=" + encodeURIComponent(summonerName.value);
-						console.log("encodedHistoryUrl = " + encodedHistoryUrl);
-						window.history.pushState(null, null, encodedHistoryUrl);
-					}
-					// if url parameter exists and person pushed submit button
-					else if ($_GET['summonerName'] != undefined && urlCall == false) {
-						console.log("url parameter exists and person pushed submit button");
-						encodedHistoryUrl = document.location.href.split("?")[0]  + "?summonerName=" + encodeURIComponent(summonerName.value);
-						console.log("encodedHistoryUrl = " + encodedHistoryUrl);
-						window.history.pushState(null, null, encodedHistoryUrl);
-					}
-					// if url parameter exists and page was reloaded
-					else
-					{
-						console.log("url parameter exists and page was reloaded");
-						$("#text").val($_GET['summonerName'].replace("%20", " ").replace("%23", "#"));
-					}
-	
-					if (summonerName.value == "")
-						alert("Enter your Summoner Name!");
-					else {
-						var temp = "";
-//						$.getJSON("http://my-worst-enemy.centralus.cloudapp.azure.com:8080/my-worst-enemy-1.0.0/topFiveChampions/" + summonerName.value,
-						var encodedUrl = "http://localhost:8080/topFiveChampions/"+ encodeURIComponent(summonerName.value);
-						console.log("encodedUrl = " + encodedUrl);
-						$.getJSON(encodedUrl,
-						function(data)
-						{
-							console.log(data);
-							console.log("Number of Champions = " + data["champions"].length);
-
-							temp = temp + '<form id="topChamps" action="champInfo.html" method="GET"><input type="hidden" name="summonerName" value="' + encodeURIComponent(summonerName.value) + '">';
-							for (i = 0; i < data["champions"].length; i++)
-							{
-								console.log("i = " + i)
-								temp = temp + '<button type="submit" name="championId" value="' + data["champions"][i]["id"] + '"><img src="' + data["champions"][i]["splashArtUrl"] + '" alt="' + data["champions"][i]["name"] + ', ' + data["champions"][i]["title"] + '" class="champion img-raised rounded-circle img-fluid"/></button>';
-							}
-							temp = temp + '</form>';
-							console.log(temp);
-
-							$('#content').html(temp);
-						});
+						event.preventDefault();
+						handleSubmission(document.getElementById("text").value);
 					}
 				});
 
-				window.$_GET = location.search.substr(1).split("&").reduce((o,i)=>(u=decodeURIComponent,[k,v]=i.split("="),o[u(k)]=v&&u(v),o),{});
-				var urlCall = false
+				// if user selected an optional button, grab the summoner name for it
+				document.querySelectorAll('.preset-btn').forEach((button) =>
+				{
+					button.addEventListener('click', () =>
+					{
+						console.log("button.getAttribute('data-value') = " + button.getAttribute('data-value'));
+						handleSubmission(button.getAttribute('data-value'));
+					});
+				});
+
+				function handleSubmission(summonerName)
+				{
+					console.log("handleSubmission summonerName = " + summonerName);
+
+
+					encodedHistoryUrl = document.location.href.split("?")[0]  + "?summonerName=" + encodeURIComponent(summonerName);
+					console.log("encodedHistoryUrl = " + encodedHistoryUrl);
+					window.history.pushState(null, null, encodedHistoryUrl);
+
+					if (summonerName == "")
+						alert("Enter your Summoner Name!");
+					else {
+						var temp = "";
+//						var encodedUrl = "http://my-worst-enemy.centralus.cloudapp.azure.com:8080/my-worst-enemy-1.0.0/topFiveChampions/" + encodeURIComponent(summonerName);
+						var encodedUrl = "http://localhost:8080/topFiveChampions/" + encodeURIComponent(summonerName);
+						console.log("encodedUrl = " + encodedUrl);
+						fetch(encodedUrl)
+							.then((response) =>
+							{
+								if (!response.ok) throw new Error(`Status: ${response.status}`);
+								return response.json();
+							})
+							.then((data) =>
+							{
+								console.log(data);
+								console.log("Number of Champions = " + data["champions"].length);
+
+								temp = temp + '<form id="topChamps" action="champInfo.html" method="GET"><input type="hidden" name="summonerName" value="' + encodeURIComponent(summonerName.value) + '">';
+								for (i = 0; i < data["champions"].length; i++)
+								{
+									console.log("i = " + i)
+									temp = temp + '<button type="submit" name="championId" value="' + data["champions"][i]["id"] + '"><img src="' + data["champions"][i]["splashArtUrl"] + '" alt="' + data["champions"][i]["name"] + ', ' + data["champions"][i]["title"] + '" class="champion img-raised rounded-circle img-fluid"/></button>';
+								}
+								temp = temp + '</form>';
+								console.log(temp);
+
+								$('#content').html(temp);
+							})
+							.catch((error) => console.error("Error: ", error));
+					}
+				}
+
+				var urlSummonerName = new URLSearchParams(window.location.search).get('summonerName');
+				console.log("dom loaded urlSummonerName = " + urlSummonerName);
 
 				// if dom loads and the summonerName var is in the url, fire off the submit to load data
-				if ($_GET['summonerName'] != undefined)
+				if (urlSummonerName != undefined)
 				{
-					console.log("dom loaded and summonerName exists");
-					urlCall = true;
-					$("#submit").trigger("click");
+					console.log("dom loaded and summonerName exists in url");
+					$("#text").val(urlSummonerName.replace("%20", " ").replace("%23", "#"));
+					document.getElementById("submit").click();
 				}
 				else
 					console.log("summonerName doesn't exist!");
@@ -98,7 +110,12 @@
 		<div id="input" class="input-group mb-3">
 			<input id="text" type="text" class="form-control" name="summonerName" placeholder="Summoner Name and Tag (Zann Starfire#NA1)">
 			<div class="input-group-append">
+				<!-- Submit what's in text box -->
 				<button id="submit" class="btn btn-secondary">Submit</button>
+
+				<!-- Submit preset values -->
+				<button type="button" class="preset-btn btn btn-secondary" data-value="Zann Starfire#NA1">Zann</button>
+				<button type="button" class="preset-btn btn btn-secondary" data-value="Søma#Small">Soma</button>
 			</div>
 		</div>
 		<div id="content"></div>
