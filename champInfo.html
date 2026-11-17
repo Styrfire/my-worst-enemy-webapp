@@ -10,6 +10,8 @@
 			{
 				window.$_GET = location.search.substr(1).split("&").reduce((o,i)=>(u=decodeURIComponent,[k,v]=i.split("="),o[u(k)]=v&&u(v),o),{});
 
+				console.log("We're in champInfo.html now!");
+
 				var summonerName = decodeURIComponent($_GET['summonerName']);
 				console.log("summonerName = " + summonerName);
 				var championId = $_GET['championId'];
@@ -17,7 +19,8 @@
 
 				var temp = "";
 //				$.getJSON("http://my-worst-enemy.centralus.cloudapp.azure.com:8080/my-worst-enemy-1.0.0/selectedChampion/" + championName,
-				$.getJSON("http://localhost:8080/selectedChampion/" + summonerName + "/" + championId,
+				var encodedUrl = "http://localhost:8080/selectedChampion/" + encodeURIComponent(summonerName) + "/" + championId
+				$.getJSON(encodedUrl,
 				function(data)
 				{
 					console.log(data);

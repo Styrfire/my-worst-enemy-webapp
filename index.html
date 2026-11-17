@@ -23,26 +23,26 @@
 					console.log("summonerName.value = " + summonerName.value);
 
 					var url = "";
-					// if no url prameter exists and user pushed submit button
+					// if no url parameter exists and user pushed submit button
 					if ($_GET['summonerName'] == undefined)
 					{
-						console.log("no url prameter exists and user pushed submit button");
-						url = document.location.href + "?summonerName=" + summonerName.value;
-						console.log("url = " + url);
-						window.history.pushState(null, null, url);
+						console.log("no url parameter exists and user pushed submit button");
+						encodedHistoryUrl = document.location.href.split("?")[0]  + "?summonerName=" + encodeURIComponent(summonerName.value);
+						console.log("encodedHistoryUrl = " + encodedHistoryUrl);
+						window.history.pushState(null, null, encodedHistoryUrl);
 					}
 					// if url parameter exists and person pushed submit button
 					else if ($_GET['summonerName'] != undefined && urlCall == false) {
 						console.log("url parameter exists and person pushed submit button");
-						url = document.location.href.split("?")[0]  + "?summonerName=" + summonerName.value;
-						console.log("url = " + url);
-						window.history.pushState(null, null, url);
+						encodedHistoryUrl = document.location.href.split("?")[0]  + "?summonerName=" + encodeURIComponent(summonerName.value);
+						console.log("encodedHistoryUrl = " + encodedHistoryUrl);
+						window.history.pushState(null, null, encodedHistoryUrl);
 					}
 					// if url parameter exists and page was reloaded
 					else
 					{
 						console.log("url parameter exists and page was reloaded");
-						$("#text").val($_GET['summonerName'].replace("%20", " "));
+						$("#text").val($_GET['summonerName'].replace("%20", " ").replace("%23", "#"));
 					}
 	
 					if (summonerName.value == "")
@@ -50,7 +50,9 @@
 					else {
 						var temp = "";
 //						$.getJSON("http://my-worst-enemy.centralus.cloudapp.azure.com:8080/my-worst-enemy-1.0.0/topFiveChampions/" + summonerName.value,
-						$.getJSON("http://localhost:8080/topFiveChampions/" + summonerName.value,
+						var encodedUrl = "http://localhost:8080/topFiveChampions/"+ encodeURIComponent(summonerName.value);
+						console.log("encodedUrl = " + encodedUrl);
+						$.getJSON(encodedUrl,
 						function(data)
 						{
 							console.log(data);
@@ -76,7 +78,7 @@
 				// if dom loads and the summonerName var is in the url, fire off the submit to load data
 				if ($_GET['summonerName'] != undefined)
 				{
-					console.log("dom loaded and sumonerName exists");
+					console.log("dom loaded and summonerName exists");
 					urlCall = true;
 					$("#submit").trigger("click");
 				}
@@ -94,7 +96,7 @@
 
 		<h1 align="center">My Own Worst Enemy</h1>
 		<div id="input" class="input-group mb-3">
-			<input id="text" type="text" class="form-control" name="summonerName" placeholder="Summoner Name">
+			<input id="text" type="text" class="form-control" name="summonerName" placeholder="Summoner Name and Tag (Zann Starfire#NA1)">
 			<div class="input-group-append">
 				<button id="submit" class="btn btn-secondary">Submit</button>
 			</div>
